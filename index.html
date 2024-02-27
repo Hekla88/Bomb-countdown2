@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bomb Countdown</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="countdown">25:00</div>
+  <form id="stopForm">
+    <input type="text" id="keywordInput" placeholder="Enter keyword to stop">
+    <button type="submit">Stop</button>
+  </form>
+  
+  <script>
+    const stopForm = document.getElementById('stopForm');
+    const countdownElement = document.getElementById('countdown');
+
+    // Set the timer for 25 minutes
+    const initialTime = 25 * 60;
+    let timeRemaining = initialTime;
+
+    // Update the countdown display every second
+    const countdownInterval = setInterval(() => {
+      const minutes = Math.floor(timeRemaining / 60);
+      const seconds = timeRemaining % 60;
+      
+      countdownElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      
+      timeRemaining--;
+
+      // If time runs out, display a message
+      if (timeRemaining < 0) {
+        clearInterval(countdownInterval);
+        countdownElement.textContent = "Boom!";
+      }
+    }, 1000);
+
+    // Stop the countdown when the form is submitted
+    stopForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const keyword = "145";
+      const userInput = document.getElementById('keywordInput').value;
+
+      if (userInput === keyword) {
+        clearInterval(countdownInterval);
+        countdownElement.textContent = "Bomb defused!";
+      } else {
+        alert("Incorrect keyword! The bomb countdown continues...");
+      }
+    });
+  </script>
+</body>
+</html>
